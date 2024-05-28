@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@vercel/remix";
 import { ArrowLeft } from "lucide-react";
 import PageDefaultLayout from "~/components/page-default-layout";
 import { Button } from "~/components/ui/button";

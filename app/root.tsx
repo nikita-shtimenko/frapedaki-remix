@@ -1,4 +1,4 @@
-import { LinkDescriptor, LinksFunction } from "@remix-run/node";
+import { LinkDescriptor, LinksFunction } from "@vercel/remix";
 import {
   Links,
   Meta,
@@ -9,6 +9,7 @@ import {
 
 import fontStyleSheet from "~/styles/fonts.css?url";
 import tailwindStyleSheet from "~/styles/tailwind.css?url";
+import { Analytics } from "@vercel/analytics/react";
 
 export const links: LinksFunction = () => {
   const fonts = ["Heebo.ttf", "Greek.otf"];
@@ -43,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="font-sans">
+        <Analytics />
         {children}
         <ScrollRestoration />
         <Scripts />

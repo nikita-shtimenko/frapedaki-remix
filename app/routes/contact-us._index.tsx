@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { ActionFunctionArgs, MetaFunction } from "@vercel/remix";
 import { Form, redirect, useNavigation } from "@remix-run/react";
 import { EmailIncomingMessage } from "emails/incoming-message";
 import { LoaderCircleIcon } from "lucide-react";
