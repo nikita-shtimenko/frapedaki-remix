@@ -11,8 +11,8 @@ import { Textarea } from "~/components/ui/textarea";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "פראפדקי" },
-    { name: "description", content: "צרו איתנו קשר, אנו מחכים להודעתכם!" },
+    { title: "צור קשר" },
+    { name: "description", content: "עמוד ליצירת קשר" },
   ];
 };
 
@@ -28,9 +28,9 @@ export async function action({ request }: ActionFunctionArgs) {
   const message = String(formData.get("message"));
 
   const { error } = await resend.emails.send({
-    from: "noreply@frapedaki.co.il",
-    to: "support@frapedaki.co.il",
-    subject: "התקבלה הודעה חדשה",
+    from: "website_noreply@frapedaki.co.il",
+    to: "office@frapedaki.com",
+    subject: `הודעה חדשה מ ${firstName} ${lastName} (${email})`,
     react: (
       <EmailIncomingMessage
         firstName={firstName}
@@ -58,9 +58,9 @@ export default function PageContactUs() {
     <PageDefaultLayout>
       <main className="flex flex-col items-center gap-y-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
             דברו איתנו
-          </h2>
+          </h1>
           <p className="mt-2 text-lg leading-8 text-gray-600">
             נשמח לשמוע מכם! בין אם יש לכם שאלות, הערות, או הצעות לשיפור, או אם
             אתם עסק שמעוניין להזמין אירוח לאירועים או לשתף פעולה איתנו, אנו כאן
@@ -72,56 +72,83 @@ export default function PageContactUs() {
             <FieldGroup className="text-right">
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <Field>
-                  <Label htmlFor="last-name">שם משפחה</Label>
+                  <Label id="label-last-name" htmlFor="last-name">
+                    שם משפחה
+                  </Label>
                   <Input
                     id="last-name"
                     type="text"
                     name="last-name"
                     autoComplete="family-name"
+                    aria-labelledby="label-last-name"
                   />
                 </Field>
                 <Field>
-                  <Label htmlFor="first-name">שם</Label>
+                  <Label id="label-first-name" htmlFor="first-name">
+                    שם
+                  </Label>
                   <Input
                     id="first-name"
                     type="text"
                     name="first-name"
                     autoComplete="given-name"
+                    aria-required="true"
+                    aria-labelledby="label-first-name"
                     required
                   />
                 </Field>
                 <Field className="sm:col-span-2">
-                  <Label htmlFor="company">חברה</Label>
+                  <Label id="label-company" htmlFor="company">
+                    חברה
+                  </Label>
                   <Input
                     type="text"
                     id="company"
                     name="company"
                     autoComplete="organization"
+                    aria-labelledby="label-company"
                   />
                 </Field>
                 <Field className="sm:col-span-2">
-                  <Label htmlFor="email">מייל</Label>
+                  <Label id="label-email" htmlFor="email">
+                    מייל
+                  </Label>
                   <Input
                     type="email"
                     id="email"
                     name="email"
                     autoComplete="email"
+                    aria-required="true"
+                    aria-labelledby="label-email"
                     required
                   />
                 </Field>
                 <Field className="sm:col-span-2">
-                  <Label htmlFor="email">מספר טלפון</Label>
+                  <Label id="label-phone-number" htmlFor="phone-number">
+                    מספר טלפון
+                  </Label>
                   <Input
                     type="tel"
                     id="phone-number"
                     name="phone-number"
                     autoComplete="tel"
+                    dir="rtl"
+                    aria-labelledby="label-phone-number"
+                    aria-required="true"
                     required
                   />
                 </Field>
                 <Field className="sm:col-span-2">
-                  <Label htmlFor="message">הודעה</Label>
-                  <Textarea id="message" name="message" required />
+                  <Label id="label-message" htmlFor="message">
+                    הודעה
+                  </Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    aria-labelledby="label-message"
+                    aria-required="true"
+                    required
+                  />
                 </Field>
               </div>
             </FieldGroup>

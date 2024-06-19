@@ -6,10 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Analytics } from "@vercel/analytics/react";
 
 import fontStyleSheet from "~/styles/fonts.css?url";
 import tailwindStyleSheet from "~/styles/tailwind.css?url";
-import { Analytics } from "@vercel/analytics/react";
 
 export const links: LinksFunction = () => {
   const fonts = ["Heebo.ttf", "Greek.otf"];

@@ -29,6 +29,8 @@ export const EmailIncomingMessage = ({
   phone,
   message,
 }: EmailIncomingMessageProps) => {
+  const previewMessage = `התקבלה הודעה חדשה מ ${firstName} ${lastName} (${email})`;
+
   return (
     <Html>
       <Head>
@@ -43,7 +45,7 @@ export const EmailIncomingMessage = ({
           fontStyle="normal"
         />
       </Head>
-      <Preview>התקבלה הודעה חדשה</Preview>
+      <Preview>{previewMessage}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white px-2 text-right font-sans">
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import React from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
+import { cn } from "~/lib/utils";
 
 const colors = {
   red: "bg-red-500/15 text-red-700 group-data-[hover]:bg-red-500/25 dark:bg-red-500/10 dark:text-red-400 dark:group-data-[hover]:bg-red-500/20",
@@ -36,6 +37,24 @@ const colors = {
 
 type BadgeProps = { color?: keyof typeof colors };
 
+// export function Badge({
+//   color = "zinc",
+//   className,
+//   ...props
+// }: BadgeProps & React.ComponentPropsWithoutRef<"span">) {
+//   return (
+//     <span
+//       {...props}
+//       className={clsx(
+//         className,
+//         "inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline",
+//         colors[color],
+//       )}
+//       dir="rtl"
+//     />
+//   );
+// }
+
 export function Badge({
   color = "zinc",
   className,
@@ -44,9 +63,9 @@ export function Badge({
   return (
     <span
       {...props}
-      className={clsx(
-        className,
+      className={cn(
         "inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline",
+        className,
         colors[color],
       )}
       dir="rtl"
