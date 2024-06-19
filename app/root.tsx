@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/remix";
 
 import fontStyleSheet from "~/styles/fonts.css?url";
 import tailwindStyleSheet from "~/styles/tailwind.css?url";
@@ -44,8 +45,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="font-sans">
-        <Analytics />
         {children}
+        <SpeedInsights />
+        <Analytics />
         <ScrollRestoration />
         <Scripts />
       </body>
