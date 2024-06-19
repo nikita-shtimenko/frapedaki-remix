@@ -27,6 +27,7 @@ const navItems = [
   { label: "עמוד בית", url: "/" },
   { label: "תפריט", url: "/menu" },
   { label: "צור קשר", url: "/contact-us" },
+  { label: "הצהרת נגישות", url: "/accessibility" },
 ];
 
 interface PageLayoutProps {
