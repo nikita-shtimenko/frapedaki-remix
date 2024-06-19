@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Field, FieldGroup, Fieldset, Label } from "~/components/ui/fieldset";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { PageHeading, PageSubheading } from "~/components/page-heading";
 
 export const meta: MetaFunction = () => {
   return [
@@ -58,14 +59,20 @@ export default function PageContactUs() {
     <PageDefaultLayout>
       <main className="flex flex-col items-center gap-y-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
+          {/* <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
             דברו איתנו
           </h1>
           <p className="mt-2 text-lg leading-8 text-gray-600">
             נשמח לשמוע מכם! בין אם יש לכם שאלות, הערות, או הצעות לשיפור, או אם
             אתם עסק שמעוניין להזמין אירוח לאירועים או לשתף פעולה איתנו, אנו כאן
             כדי להקשיב ולעזור.
-          </p>
+          </p> */}
+          <PageHeading>דברו איתנו</PageHeading>
+          <PageSubheading>
+            נשמח לשמוע מכם! בין אם יש לכם שאלות, הערות, או הצעות לשיפור, או אם
+            אתם עסק שמעוניין להזמין אירוח לאירועים או לשתף פעולה איתנו, אנו כאן
+            כדי להקשיב ולעזור.
+          </PageSubheading>
         </div>
         <Form method="post" className="flex w-full max-w-screen-xs flex-col">
           <Fieldset>

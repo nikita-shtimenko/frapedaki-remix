@@ -1,6 +1,7 @@
 import { MetaFunction } from "@remix-run/react";
 import Announcement from "~/components/announcement";
 import PageDefaultLayout from "~/components/page-default-layout";
+import { PageHeading, PageSubheading } from "~/components/page-heading";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,17 +10,21 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function PageMenu() {
+export default function PageMenuIndex() {
   return (
     <PageDefaultLayout>
       <main className="flex w-full flex-col items-center">
         <div className="mx-auto max-w-2xl text-center sm:text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
+          {/* <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
             הכירו את התפריט שלנו
           </h1>
           <h2 className="mt-1 text-lg leading-8 text-gray-600">
             מגוון טעמים וריחות מכל העולם - התפריט המושלם לחובבי הקפה
-          </h2>
+          </h2> */}
+          <PageHeading>הכירו את התפריט שלנו</PageHeading>
+          <PageSubheading>
+            מגוון טעמים וריחות מכל העולם - התפריט המושלם לחובבי הקפה
+          </PageSubheading>
         </div>
         <div className="mt-8 flex flex-col items-center justify-center gap-y-8 lg:flex-row lg:gap-x-8 lg:gap-y-0">
           <img
