@@ -12,7 +12,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function PageIndex() {
-  // Transform the image: auto-crop to square aspect_ratio
   return (
     <PageDefaultLayout>
       <main className="grid w-full grid-flow-row grid-rows-2 sm:max-lg:justify-center lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-8">
