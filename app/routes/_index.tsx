@@ -12,7 +12,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function PageIndex() {
-  // Transform the image: auto-crop to square aspect_ratio
   return (
     <PageDefaultLayout>
       <main className="grid w-full grid-flow-row grid-rows-2 sm:max-lg:justify-center lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-8">
@@ -29,7 +28,11 @@ export default function PageIndex() {
             ליווי מלא להצלחתם.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-            <Button href="/contact-us" className="w-2/5 md:w-1/4 lg:w-1/5">
+            <Button
+              href="/contact-us"
+              className="w-2/5 md:w-1/4 lg:w-1/5"
+              outline
+            >
               צור קשר
               <ArrowLeft size={16} role="presentation" />
             </Button>

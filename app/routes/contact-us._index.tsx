@@ -8,6 +8,10 @@ import { Button } from "~/components/ui/button";
 import { Field, FieldGroup, Fieldset, Label } from "~/components/ui/fieldset";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { PageHeading, PageSubheading } from "~/components/page-heading";
+import { z } from "zod";
+import { json } from "@remix-run/node";
+import { parseWithZod } from "@conform-to/zod";
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,16 +20,40 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const schema = z.object({
+  firstName: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "First name is required" }),
+  ),
+  lastName: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Last name is required" }),
+  ),
+  company: z.string(),
+  email: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Email is required" }).email("Email is invalid"),
+  ),
+  phoneNumber: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Phone number is required" }),
+  ),
+  message: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .string({ required_error: "Message is required" })
+      .max(512, "Message is too long"),
+  ),
+});
+
 export async function action({ request }: ActionFunctionArgs) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const formData = await request.formData();
+  const submission = parseWithZod(formData, { schema });
 
-  const lastName = String(formData.get("last-name"));
-  const firstName = String(formData.get("first-name"));
-  const company = String(formData.get("company"));
-  const email = String(formData.get("email"));
-  const phoneNumber = String(formData.get("phone-number"));
-  const message = String(formData.get("message"));
+  if (submission.status !== "success") {
+    return json(submission.reply());
+  }
 
   const { error } = await resend.emails.send({
     from: "website_noreply@frapedaki.co.il",
@@ -50,6 +78,40 @@ export async function action({ request }: ActionFunctionArgs) {
   return redirect("/contact-us/success");
 }
 
+// export async function action({ request }: ActionFunctionArgs) {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+//   const formData = await request.formData();
+
+//   const lastName = String(formData.get("last-name"));
+//   const firstName = String(formData.get("first-name"));
+//   const company = String(formData.get("company"));
+//   const email = String(formData.get("email"));
+//   const phoneNumber = String(formData.get("phone-number"));
+//   const message = String(formData.get("message"));
+
+//   const { error } = await resend.emails.send({
+//     from: "website_noreply@frapedaki.co.il",
+//     to: "office@frapedaki.com",
+//     subject: `הודעה חדשה מ ${firstName} ${lastName} (${email})`,
+//     react: (
+//       <EmailIncomingMessage
+//         firstName={firstName}
+//         lastName={lastName}
+//         company={company}
+//         email={email}
+//         phone={phoneNumber}
+//         message={message}
+//       />
+//     ),
+//   });
+
+//   if (error) {
+//     return redirect("/contact-us/error");
+//   }
+
+//   return redirect("/contact-us/success");
+// }
+
 export default function PageContactUs() {
   const navigation = useNavigation();
   const busy = navigation.state !== "idle";
@@ -58,14 +120,12 @@ export default function PageContactUs() {
     <PageDefaultLayout>
       <main className="flex flex-col items-center gap-y-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-blue-600 sm:text-4xl">
-            דברו איתנו
-          </h1>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
+          <PageHeading>דברו איתנו</PageHeading>
+          <PageSubheading>
             נשמח לשמוע מכם! בין אם יש לכם שאלות, הערות, או הצעות לשיפור, או אם
             אתם עסק שמעוניין להזמין אירוח לאירועים או לשתף פעולה איתנו, אנו כאן
             כדי להקשיב ולעזור.
-          </p>
+          </PageSubheading>
         </div>
         <Form method="post" className="flex w-full max-w-screen-xs flex-col">
           <Fieldset>
