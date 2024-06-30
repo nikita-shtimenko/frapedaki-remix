@@ -9,6 +9,9 @@ import { Field, FieldGroup, Fieldset, Label } from "~/components/ui/fieldset";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { PageHeading, PageSubheading } from "~/components/page-heading";
+import { z } from "zod";
+import { json } from "@remix-run/node";
+import { parseWithZod } from "@conform-to/zod";
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,16 +20,40 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const schema = z.object({
+  firstName: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "First name is required" }),
+  ),
+  lastName: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Last name is required" }),
+  ),
+  company: z.string(),
+  email: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Email is required" }).email("Email is invalid"),
+  ),
+  phoneNumber: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.string({ required_error: "Phone number is required" }),
+  ),
+  message: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .string({ required_error: "Message is required" })
+      .max(512, "Message is too long"),
+  ),
+});
+
 export async function action({ request }: ActionFunctionArgs) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const formData = await request.formData();
+  const submission = parseWithZod(formData, { schema });
 
-  const lastName = String(formData.get("last-name"));
-  const firstName = String(formData.get("first-name"));
-  const company = String(formData.get("company"));
-  const email = String(formData.get("email"));
-  const phoneNumber = String(formData.get("phone-number"));
-  const message = String(formData.get("message"));
+  if (submission.status !== "success") {
+    return json(submission.reply());
+  }
 
   const { error } = await resend.emails.send({
     from: "website_noreply@frapedaki.co.il",
@@ -50,6 +77,40 @@ export async function action({ request }: ActionFunctionArgs) {
 
   return redirect("/contact-us/success");
 }
+
+// export async function action({ request }: ActionFunctionArgs) {
+//   const resend = new Resend(process.env.RESEND_API_KEY);
+//   const formData = await request.formData();
+
+//   const lastName = String(formData.get("last-name"));
+//   const firstName = String(formData.get("first-name"));
+//   const company = String(formData.get("company"));
+//   const email = String(formData.get("email"));
+//   const phoneNumber = String(formData.get("phone-number"));
+//   const message = String(formData.get("message"));
+
+//   const { error } = await resend.emails.send({
+//     from: "website_noreply@frapedaki.co.il",
+//     to: "office@frapedaki.com",
+//     subject: `הודעה חדשה מ ${firstName} ${lastName} (${email})`,
+//     react: (
+//       <EmailIncomingMessage
+//         firstName={firstName}
+//         lastName={lastName}
+//         company={company}
+//         email={email}
+//         phone={phoneNumber}
+//         message={message}
+//       />
+//     ),
+//   });
+
+//   if (error) {
+//     return redirect("/contact-us/error");
+//   }
+
+//   return redirect("/contact-us/success");
+// }
 
 export default function PageContactUs() {
   const navigation = useNavigation();
